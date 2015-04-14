@@ -1,0 +1,65 @@
+<html>
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<script>
+// Define "myCenter"
+var myCenter=new google.maps.LatLng(38.609654,-90.226537);
+
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(38.609654,-90.226537),
+    zoom:12,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  
+
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  // Set a marker
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+  marker.setMap(map);
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+  
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+
+<p>This is an R HTML document. When you click the <b>Knit HTML</b> button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+
+<!--begin.rcode, echo=FALSE
+
+
+suppressPackageStartupMessages(library(xlsx, quietly=TRUE))
+suppressPackageStartupMessages(library(RCurl, quietly=TRUE))
+suppressPackageStartupMessages(library(XML, quietly=TRUE))
+
+
+# Load workbook & sheet
+wb <- loadWorkbook("C:/Users/Zak/Desktop/R_play/datamine/zestimate.xlsx")
+sheets <- getSheets(wb)
+sheet1 <- sheets[[1]]
+
+# Find number of data entries in the workbook
+data<-readColumns(sheet=sheet1, startColumn=2,
+    endColumn=2, startRow=1, header=T)
+num_rows <- nrow(data)
+
+end.rcode-->
+
+<p>You can also embed plots, for example:</p>
+
+<!--begin.rcode, echo=F, fig.width=7, fig.height=6
+plot(data[[1]])
+end.rcode-->
+
+</body>
+</html>

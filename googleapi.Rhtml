@@ -1,0 +1,95 @@
+<html>
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<script>
+// Define "myCenter"
+var myCenter=new google.maps.LatLng(38.609654,-90.226537);
+
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(38.609654,-90.226537),
+    zoom:12,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  
+
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  // Set a marker
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+  marker.setMap(map);
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+  
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+
+<p>This is an R HTML document. When you click the <b>Knit HTML</b> button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+
+<!--begin.rcode, echo=FALSE
+
+library(xlsx)
+library(RCurl)
+library(XML)
+
+# Make API request to Zillow
+
+# Store your address here
+# Example:  "3406 Halliday Ave"
+#addy <- readline(prompt="Enter Street Address: ")
+addy <- "3406 Halliday Ave"
+
+# Store your City, State (2-letter code), Zip here:
+# Example:  "Saint Louis, MO 63118"
+# csz <- readline(prompt="Enter the City, State (2-letter code), Zip: ")
+csz <- "Saint Louis, MO 63118"
+
+# Store your zws-id (API account) here:
+zws_id <- ""
+
+
+reply = getForm("http://www.zillow.com/webservice/GetSearchResults.htm",
+                'zws-id' = zws_id,
+                address = addy,
+                citystatezip = csz)
+
+# Parse XML
+doc <- xmlTreeParse(reply, useInternal=T)
+# Save Zestimate value
+zest <- as.numeric(xmlValue(doc[["//zestimate/amount"]]))
+
+# Get url to comparables
+url_comp <- xpathSApply(doc, "//comparables", xmlValue)
+
+# Extract prices of comparables
+# Get comparable html data
+ht <- htmlTreeParse(url_comp, useInternal=T)
+# Store root node
+htroot <- xmlRoot(ht)
+
+# Find div class = 'comps-price-graph-home_placeholder', extract 'data-price'
+comparables <- as.numeric(xpathSApply(htroot,
+    "//div[@class='comps-price-graph-home_placeholder']", 
+    xmlGetAttr, 
+    "data-price"))
+
+
+end.rcode-->
+
+<p>You can also embed plots, for example:</p>
+
+<!--begin.rcode, echo=F, fig.width=7, fig.height=6
+boxplot(comparables, zest)
+end.rcode-->
+
+</body>
+</html>

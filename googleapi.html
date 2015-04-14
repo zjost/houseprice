@@ -1,0 +1,55 @@
+<html>
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<script>
+// Define "myCenter"
+var myCenter=new google.maps.LatLng(38.609654,-90.226537);
+
+function initialize() {
+  var mapProp = {
+    center:new google.maps.LatLng(38.609654,-90.226537),
+    zoom:12,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  
+
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  // Set a marker
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+  marker.setMap(map);
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+  
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+
+<p>This is an R HTML document. When you click the <b>Knit HTML</b> button a web page will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="message"><pre class="knitr r">## Loading required package: rJava
+## Loading required package: xlsxjars
+## Loading required package: bitops
+## 
+## Attaching package: 'RCurl'
+## 
+## The following object is masked from 'package:rJava':
+## 
+##     clone
+</pre></div>
+</div></div>
+
+<p>You can also embed plots, for example:</p>
+
+<div class="chunk" id="unnamed-chunk-2"><div class="rimage default"><img src="figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div></div>
+
+</body>
+</html>
